@@ -18,3 +18,28 @@ problems:
   * npm how to executable scripts
   * how to find `vite/node_modules/.bin/vite` ?
   * read source code of `vite/node_modules/.bin/vite`
+
+### start vite
+
+What happen when execute `npm run start` ? 
+
+First, Why npm command can execute ?
+
+When we install `node.js`, it will auto put directory pathname which store npm in `PATH` string.
+
+`PATH` is an environment variable , filename in it can execute directly in terminal.
+
+Otherwise, `npm` is a soft link, and its actual location as following:
+
+```shell
+
+```
+
+npm run start -> `npmcli.js` run start
+
+which will execute following code in `npmcli.js`:
+```shell
+spawn('sh',['-c','--','vite'],{ env: { PATH: '/some/path/node_modules/.bin:/some/node_modules/.bin:...recursive_parent/node_modules/.bin:...other directories' } })
+```
+
+Eventually, actually executed command is `sh -c -- /some/path/node_modules/vite`
