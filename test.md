@@ -50,11 +50,14 @@ Eventually, actually executed command is `sh -c -- /some/path/node_modules/vite`
 ### architecture
 
 - development
+  - dev
+  - playground
   - build
   - debug
   - test
   - document
 - publish
+  - release
 
 ### package
 
@@ -64,3 +67,15 @@ build:
 
 - rollup
 - unbuild
+- api-extractor
+
+cli:
+
+- picocolors
+- cac
+
+others:
+
+- npm-run-all
+- tsx
+- simple-git-hooks

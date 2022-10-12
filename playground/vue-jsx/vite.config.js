@@ -37,6 +37,6 @@ export default defineComponent(() => {
     minify: false
   },
   optimizeDeps: {
-    disabled: true
+    // disabled: true
   }
 }
