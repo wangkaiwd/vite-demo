@@ -19,9 +19,61 @@
 * `shell`变量(局部变量)： 只能在当前`shell`中使用
 * 环境变量(全局变量): 可以传递变量到子`shell`
 
+可以通过以下俩种方式来查看定义的变量：
+* printenv : 没有参数时列出所有的环境变量，有参数时列出参数对应的环境变量
+* echo: 显示对应的`shell`变量或环境变量
+
 #### `shell`变量
 
+在终端中可以直接通过`name=value`的形式来创建变量：
+```shell
+# 等号左右俩边不能有空格
+name=value
+```
+
+可以通过`echo $<variable name>`来查看刚才定义的变量:
+```shell
+echo $name
+# value
+```
+
+`printenv <variable name>`可以查看定义的环境变量：
+```shell
+# 由于name不是环境变量，输出内容为空
+printenv name
+```
+
+通过这种方式定义的变量只能在当前进程中使用，而无法在子进程中使用
+
+使用`bash`命令可以在终端中再创建一个子进程，可以看到，此时再次执行`echo $name`不会输出任何内容：
+![](https://cdn.jsdelivr.net/gh/wangkaiwd/drawing-bed/202210162024899.png)
+
 #### 环境变量
+
+想要让变量能在子进程中也使用，需要通过`export`来定义变量：
+```shell
+export name1=value1
+```
+
+查看定义的环境变量：
+```text
+➜  ~ printenv name1
+value1
+➜  ~ echo $name1
+value1
+```
+
+此时，我们在子进程中也能访问到定义的变量：
+```text
+bash
+
+bash-3.2$ printenv name1
+value1
+bash-3.2$ echo $name1
+value1
+```
+
+但是当重新开启一个终端后，`shell`变量和环境变量都会失效无法访问。为了能让变量在所有终端中生效，需要修改配置文件，这个会在之后进行详细介绍
 
 ##### 内置环境变量
 
@@ -106,19 +158,46 @@ source ~/.zshrc
 
 ![](https://cdn.jsdelivr.net/gh/wangkaiwd/drawing-bed/202210161825867.png)
 
-### 实战
+### `npm`与环境变量
 
-* `npm`为什么可以在命令行中直接运行？
-* `node.js`中设置/查看环境变量：`process.env`
-* `npm`是在执行`scripts`时如何在`node_modules/.bin`中进行查找对应的命令？
+以`vite`为例，在启动项目时需要在`package.json`的`scripts`中配置`{dev: "vite"}`命令，然后在终端执行`npm run dev`，`npm`便会执行`scripts`中`dev`对应的`vite`命令。
+
+而`vite`命令在执行时，`Node.js`会将起环境变量`PATH`设置为`node_modules/.bin`，即会在`node_modules/.bin`中查找可以执行的`vite`文件。其实现的代码如下：
+```ts
+// npm-run-start.ts
+import { spawn } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import process from 'node:process';
+import path from 'node:path';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// 核心：通过spawn执行 sh -c -- vite 命令，并将根目录下的./node_modules/.bin添加到环境变量中
+const PATH = `${path.resolve(__dirname, '../../../', './node_modules/.bin')}:${process.env.PATH}`;
+const ls = spawn('sh', ['-c', '--', 'vite'], {
+  env: { PATH },
+  cwd: path.resolve(__dirname, '../../../playground/vue-jsx'),
+  stdio: 'inherit'
+});
+
+ls.on('close', (code) => {
+  console.log(`child process exited with code ${code}`);
+});
+ls.on('error', (err) => {
+  console.log('err', err);
+});
+```
+
+
+上述代码其实就是通过`spawn`命令中的`env`来指定命令执行时的环境变量，从而能够直接运行本地安装的`cli`。最终`node_modules/.bin/vite`在执行时，执行真正的`vite`源代码。
+
+使用[`tsx`](https://github.com/esbuild-kit/tsx)执行上述代码，便可以实现与`npm run dev`一样的效果。
 
 ### 总结
 
 本文涉及到的所有`linux`命令如下，如有任何疏漏还望指正：
 
-* printenv
-* set
-* export
+* [printenv](https://man7.org/linux/man-pages/man1/printenv.1.html)
+* [export](https://www.man7.org/linux/man-pages/man1/export.1p.html)
 * [source(.)](https://man7.org/linux/man-pages/man1/dot.1p.html)
 
 
