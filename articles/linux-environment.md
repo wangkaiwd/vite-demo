@@ -8,7 +8,9 @@
 * book: [The Linux Command Line](https://linuxcommand.org/tlcl.php)(11 - The Environment)
 * [Variables](https://linux.die.net/Bash-Beginners-Guide/sect_03_02.html)
 
-### Shell 初始化文件
+笔者的日常开发环境如下：
+* 操作系统:macos
+* `shell`: zsh
 
 ### 变量
 
@@ -16,10 +18,61 @@
 * 创建/查看局部变量
 * 创建/查看全局变量
 * 内置变量：`PATH`
-* 更改环境变量
-  * 持久化环境变量：`.`,`source`
 
-实战：
+### Shell 初始化文件
+
+当我们每次打开终端后，`shell`便会从初始化文件中读取一系列配置，如环境变量。常见的`shell`初始化文件如下：
+
+| 文件           | 内容                      |
+|--------------|-------------------------|
+| /etc/profile | 应用到所有用户的全局配置            |
+| /etc/bashrc  | 应用到所有用户的全局配置（专用于`bash`） |
+| ~/.zshrc     | 用户个人的`zsh`配置            |
+
+通过`cat ~/.zshrc`命令，可以查看配置文件中的内容：
+```shell
+# If you come from bash you might have to change your $PATH.
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# Path to your oh-my-zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="robbyrussell"
+
+alias cat="pygmentize -g"
+```
+
+可以看到，在配置文件中可以进行设置环境变量、设置别名等一系列操作。
+
+### 修改配置文件
+
+当然，配置文件也可以修改来实现一些用户自定义的内容。我们可以通过`vim`命令，在命令行中直接修改配置文件
+```shell
+vim ~/.zshrc
+```
+
+比如，我们在配置文件中增加一个新的环境变量
+
+```shell
+# ... some other code
+export A=test
+```
+
+这样添加的文件只会在下次重新启动终端时再次读取配置文件时才会生效，为了让配置立即生效，要记得执行如下命令：
+```shell
+source ~/.zshrc
+# 或者 . ~/.zshrc, 俩者作用完全相同
+```
+
+执行`printenv A`来查看是否成功添加环境变量：
+
+![](https://cdn.jsdelivr.net/gh/wangkaiwd/drawing-bed/202210161825867.png)
+
+### 实战
 
 * `npm`为什么可以在命令行中直接运行？
 * `node.js`中设置/查看环境变量：`process.env`
@@ -33,7 +86,7 @@
 * printenv
 * set
 * export
-* source/.
+* [source(.)](https://man7.org/linux/man-pages/man1/dot.1p.html)
 
 
 
