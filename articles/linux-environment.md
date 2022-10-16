@@ -14,10 +14,44 @@
 
 ### 变量
 
-* 变量类型
-* 创建/查看局部变量
-* 创建/查看全局变量
-* 内置变量：`PATH`
+`linux`中的变量有如下俩类：
+
+* `shell`变量(局部变量)： 只能在当前`shell`中使用
+* 环境变量(全局变量): 可以传递变量到子`shell`
+
+#### `shell`变量
+
+#### 环境变量
+
+##### 内置环境变量
+
+操作系统中有许多内置的环境变量，执行`printenv`可以查看这些变量：
+```shell
+# some environment variables
+TERM_SESSION_ID=w0t0p0:D35D538F-01B7-407D-AC61-476CD68AE6E7
+SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.1Goz8bCjVc/Listeners
+LC_TERMINAL_VERSION=3.4.16
+COLORFGBG=7;0
+ITERM_PROFILE=Default
+XPC_FLAGS=0x0
+SHELL=/bin/zsh
+__CFBundleIdentifier=com.googlecode.iterm2
+LC_CTYPE=UTF-8
+TERM_PROGRAM_VERSION=3.4.16
+TERM_PROGRAM=iTerm.app
+LC_TERMINAL=iTerm2
+COLORTERM=truecolor
+COMMAND_MODE=unix2003
+PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+```
+
+需要注意的是`PATH`变量，`PATH`中定义了由`:`分割的目录列表，当用户在终端执行一个命令如`ls`时，会在`PATH`中定义的目录下进行查找，找到对应的文件然后执行。
+
+作为前端开发者，以我们经常用到的`npm`为例：
+
+![](https://cdn.jsdelivr.net/gh/wangkaiwd/drawing-bed/202210161853592.png)
+
+可以看到`npm`所在目录存在于`PATH`对应的目录列表中，所以我们才可以通过终端来执行`npm`命令。其它的终端中的可执行命令，也是如此
 
 ### Shell 初始化文件
 
@@ -82,7 +116,6 @@ source ~/.zshrc
 
 本文涉及到的所有`linux`命令如下，如有任何疏漏还望指正：
 
-* echo
 * printenv
 * set
 * export
