@@ -1,7 +1,6 @@
 ## Linux 环境变量
-> [The Bash environment](https://linux.die.net/Bash-Beginners-Guide/chap_03.html)
 
-最近阅读了一些`linux`相关的书籍和文章以及文档，想结合自己的理解来讲解一下`linux`的环境变量。
+最近阅读了一些`linux`相关的书籍、文章以及文档，想结合自己的理解来讲解一下`linux`的环境变量。
 
 本文的参考内容如下，感兴趣的小伙伴也可以阅读原文：
 * [linux man page online](https://man7.org/linux/man-pages/index.html): 查询linux命令
@@ -158,7 +157,7 @@ source ~/.zshrc
 
 ![](https://cdn.jsdelivr.net/gh/wangkaiwd/drawing-bed/202210161825867.png)
 
-### `npm`与环境变量
+### `npm`执行`scripts`中的`cli`命令
 
 以`vite`为例，在启动项目时需要在`package.json`的`scripts`中配置`{dev: "vite"}`命令，然后在终端执行`npm run dev`，`npm`便会执行`scripts`中`dev`对应的`vite`命令。
 
@@ -194,11 +193,10 @@ ls.on('error', (err) => {
 
 ### 总结
 
-本文涉及到的所有`linux`命令如下，如有任何疏漏还望指正：
+本文涉及到的所有`linux`命令如下：
 
 * [printenv](https://man7.org/linux/man-pages/man1/printenv.1.html)
 * [export](https://www.man7.org/linux/man-pages/man1/export.1p.html)
 * [source(.)](https://man7.org/linux/man-pages/man1/dot.1p.html)
 
-
-
+学习`linux`的相关知识，帮助笔者进一步深入的理解了`Node.js`中`cli`如何运行，以及`cli`
