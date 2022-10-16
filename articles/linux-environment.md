@@ -7,7 +7,7 @@
 * book: [The Linux Command Line](https://linuxcommand.org/tlcl.php)(11 - The Environment)
 * [Variables](https://linux.die.net/Bash-Beginners-Guide/sect_03_02.html)
 
-笔者的日常开发环境如下：
+我的日常开发环境如下：
 * 操作系统:macos
 * `shell`: zsh
 
@@ -42,10 +42,16 @@ echo $name
 printenv name
 ```
 
-通过这种方式定义的变量只能在当前进程中使用，而无法在子进程中使用
+通过这种方式定义的变量只能在当前进程中使用，而无法在子进程中使用。
 
-使用`bash`命令可以在终端中再创建一个子进程，可以看到，此时再次执行`echo $name`不会输出任何内容：
-![](https://cdn.jsdelivr.net/gh/wangkaiwd/drawing-bed/202210162024899.png)
+为了验证上述文字，使用`bash`命令在终端中再创建一个子进程，可以看到，此时再次执行`echo $name`不会输出任何内容：
+```text
+➜  ~ bash
+
+bash-3.2$ echo $name
+
+bash-3.2$
+```
 
 #### 环境变量
 
@@ -72,9 +78,9 @@ bash-3.2$ echo $name1
 value1
 ```
 
-但是当重新开启一个终端后，`shell`变量和环境变量都会失效无法访问。为了能让变量在所有终端中生效，需要修改配置文件，这个会在之后进行详细介绍
+但是当重新开启一个终端后，`shell`变量和环境变量都会失效无法访问。为了能让变量永久的在所有终端中生效，需要[修改配置文件](https://github.com/wangkaiwd/vite-demo/blob/main/articles/linux-environment.md#%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6)，这个会在之后进行详细介绍。
 
-##### 内置环境变量
+#### 内置环境变量
 
 操作系统中有许多内置的环境变量，执行`printenv`可以查看这些变量：
 ```shell
@@ -93,7 +99,7 @@ TERM_PROGRAM=iTerm.app
 LC_TERMINAL=iTerm2
 COLORTERM=truecolor
 COMMAND_MODE=unix2003
-PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+PATH=/Users/username/Library/pnpm:/Users/username/.bun/bin:/Users/username/.nvm/versions/node/v16.14.2/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/username/bin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/username/.yarn/bin
 ```
 
 需要注意的是`PATH`变量，`PATH`中定义了由`:`分割的目录列表，当用户在终端执行一个命令如`ls`时，会在`PATH`中定义的目录下进行查找，找到对应的文件然后执行。
@@ -102,11 +108,11 @@ PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/bin:/opt/homebrew/bin:
 
 ![](https://cdn.jsdelivr.net/gh/wangkaiwd/drawing-bed/202210161853592.png)
 
-可以看到`npm`所在目录存在于`PATH`对应的目录列表中，所以我们才可以通过终端来执行`npm`命令。其它的终端中的可执行命令，也是如此
+可以看到`npm`所在目录存在于`PATH`对应的目录列表中，所以我们才可以通过终端来执行`npm`命令。其它的终端中的可执行命令，也是如此。
 
 ### Shell 初始化文件
 
-当我们每次打开终端后，`shell`便会从初始化文件中读取一系列配置，如环境变量。常见的`shell`初始化文件如下：
+当我们每次打开终端后，`shell`便会从初始化文件中读取一系列配置，如环境变量、别名等。常见的`shell`初始化文件如下：
 
 | 文件           | 内容                      |
 |--------------|-------------------------|
@@ -114,7 +120,7 @@ PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/bin:/opt/homebrew/bin:
 | /etc/bashrc  | 应用到所有用户的全局配置（专用于`bash`） |
 | ~/.zshrc     | 用户个人的`zsh`配置            |
 
-通过`cat ~/.zshrc`命令，可以查看配置文件中的内容：
+通过`cat ~/.zshrc`命令，可以查看配置文件中的内容。下面展示的是我电脑中配置文件里的一些代码：
 ```shell
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -147,7 +153,7 @@ vim ~/.zshrc
 export A=test
 ```
 
-这样添加的文件只会在下次重新启动终端时再次读取配置文件时才会生效，为了让配置立即生效，要记得执行如下命令：
+需要注意的是，这样添加的内容只会在下次重新启动终端，再次读取配置文件时才会生效。为了让配置立即生效，要记得执行如下命令：
 ```shell
 source ~/.zshrc
 # 或者 . ~/.zshrc, 俩者作用完全相同
@@ -161,9 +167,9 @@ source ~/.zshrc
 
 以`vite`为例，在启动项目时需要在`package.json`的`scripts`中配置`{dev: "vite"}`命令，然后在终端执行`npm run dev`，`npm`便会执行`scripts`中`dev`对应的`vite`命令。
 
-而`vite`命令在执行时，`Node.js`会将起环境变量`PATH`设置为`node_modules/.bin`，即会在`node_modules/.bin`中查找可以执行的`vite`文件。其实现的代码如下：
+而`vite`命令在执行时，`Node.js`会将其环境变量`PATH`设置为`node_modules/.bin`，即会在`node_modules/.bin`中查找可以执行的`vite`文件。其实现代码如下：
 ```ts
-// npm-run-start.ts
+// npm-run-dev.ts
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import process from 'node:process';
@@ -171,6 +177,7 @@ import path from 'node:path';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // 核心：通过spawn执行 sh -c -- vite 命令，并将根目录下的./node_modules/.bin添加到环境变量中
+// PATH和cwd要根据自已的目录结构来决定
 const PATH = `${path.resolve(__dirname, '../../../', './node_modules/.bin')}:${process.env.PATH}`;
 const ls = spawn('sh', ['-c', '--', 'vite'], {
   env: { PATH },
