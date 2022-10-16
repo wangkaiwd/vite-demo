@@ -198,14 +198,14 @@ ls.on('error', (err) => {
 
 使用[`tsx`](https://github.com/esbuild-kit/tsx)执行上述代码，便可以实现与`npm run dev`一样的效果。
 
-### 总结
+### 介于
 
-本文涉及到的所有`linux`命令如下：
+以下是文中涉及到的`linux`命令：
 
 * [printenv](https://man7.org/linux/man-pages/man1/printenv.1.html)
 * [export](https://www.man7.org/linux/man-pages/man1/export.1p.html)
 * [source(.)](https://man7.org/linux/man-pages/man1/dot.1p.html)
 
-学习`linux`的相关知识，帮助笔者进一步深入理解了`Node.js`中`cli`的运行和调试过程，也让自己能更熟练的使用前端流行的`cli`工具。
+学习`linux`的相关知识，帮助我进一步深入理解了`Node.js`中`cli`的运行和调试过程，也让自己能更熟练的使用前端以及开发`cli`工具。
 
-以上就是笔者对于`linux`环境变量的一些理解，希望这些知识也能对你有所帮助。
+以上就是我对`linux`环境变量的一些理解，希望这些知识也能对你有所帮助。
