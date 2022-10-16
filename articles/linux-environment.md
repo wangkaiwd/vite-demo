@@ -199,4 +199,6 @@ ls.on('error', (err) => {
 * [export](https://www.man7.org/linux/man-pages/man1/export.1p.html)
 * [source(.)](https://man7.org/linux/man-pages/man1/dot.1p.html)
 
-学习`linux`的相关知识，帮助笔者进一步深入的理解了`Node.js`中`cli`如何运行，以及`cli`
+学习`linux`的相关知识，帮助笔者进一步深入理解了`Node.js`中`cli`的运行和调试过程，也让自己能更熟练的使用前端流行的`cli`工具。
+
+以上就是笔者对于`linux`环境变量的一些理解，希望这些知识也能对你有所帮助。
