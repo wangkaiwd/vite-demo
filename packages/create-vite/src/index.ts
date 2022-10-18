@@ -165,6 +165,7 @@ const TEMPLATES = FRAMEWORKS.map(
   (f) => (f.variants && f.variants.map((v) => v.name)) || [f.name]
 ).reduce((a, b) => a.concat(b), [])
 
+// https://docs.npmjs.com/cli/v8/using-npm/developers#keeping-files-out-of-your-package
 const renameFiles: Record<string, string | undefined> = {
   _gitignore: '.gitignore'
 }
