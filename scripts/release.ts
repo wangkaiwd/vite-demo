@@ -107,6 +107,7 @@ async function main(): Promise<void> {
   }
 
   step('\nPushing to GitHub...')
+
   await runIfNotDry('git', ['push', 'origin', `refs/tags/${tag}`])
   await runIfNotDry('git', ['push'])
 
