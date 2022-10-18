@@ -91,7 +91,7 @@ async function main(): Promise<void> {
     '--commit-path',
     '.'
   ]
-  // distinguish different package with git tag
+  // generate specify package changelog: --lerna-package pkgName
   if (pkgName !== 'vite') changelogArgs.push('--lerna-package', pkgName)
   await run('npx', changelogArgs, { cwd: pkgDir })
 
