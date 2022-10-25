@@ -23,7 +23,10 @@ const createServer = () => {
   })
   return server
 }
+
 const server = createServer()
+
+server.printUrls()
 
 const restartServer = () => {
   server.close()
