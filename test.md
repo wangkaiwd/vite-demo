@@ -61,3 +61,9 @@ others:
 ### commit code
 
 - [conventional commit example](https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-angular)
+
+### Problems
+
+- How to resolve user config file ?
+- Start server
+- PrintServer url
