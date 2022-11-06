@@ -235,16 +235,16 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const PATH = `${path.resolve(__dirname, '../../../', './node_modules/.bin')}:${
   process.env.PATH
 }`
-const ls = spawn('sh', ['-c', '--', 'vite'], {
+const cp = spawn('sh', ['-c', '--', 'vite'], {
   env: { PATH },
   cwd: path.resolve(__dirname, '../../../playground/vue-jsx'),
   stdio: 'inherit'
 })
 
-ls.on('close', (code) => {
+cp.on('close', (code) => {
   console.log(`child process exited with code ${code}`)
 })
-ls.on('error', (err) => {
+cp.on('error', (err) => {
   console.log('err', err)
 })
 ```
